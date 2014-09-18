@@ -221,7 +221,7 @@ class GridMap
   double getResolution() const;
 
   /*!
-   * Get the buffer size (rows and cols of the data structure).
+   * Get the buffer size [width, height] (cols and rows of the data structure).
    * @return buffer size.
    */
   const Eigen::Array2i& getBufferSize() const;

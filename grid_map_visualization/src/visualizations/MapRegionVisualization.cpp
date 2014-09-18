@@ -30,7 +30,7 @@ MapRegionVisualization::~MapRegionVisualization()
 
 bool MapRegionVisualization::readParameters()
 {
-  nodeHandle_.param("map_region/line_width", lineWidth_, 0.003);
+  nodeHandle_.param("map_region/line_width", lineWidth_, 0.03);
 
   int colorValue;
   nodeHandle_.param("map_region/color", colorValue, 16777215); // white, http://www.wolframalpha.com/input/?i=BitOr%5BBitShiftLeft%5Br%2C16%5D%2C+BitShiftLeft%5Bg%2C8%5D%2C+b%5D+where+%7Br%3D20%2C+g%3D50%2C+b%3D230%7D
@@ -46,9 +46,20 @@ bool MapRegionVisualization::initialize()
   marker_.action = visualization_msgs::Marker::ADD;
   marker_.type = visualization_msgs::Marker::LINE_STRIP;
   marker_.scale.x = lineWidth_;
+  marker_.scale.y = lineWidth_;
   marker_.points.resize(nVertices_); // Initialized to [0.0, 0.0, 0.0]
   marker_.colors.resize(nVertices_, color_);
   return true;
+}
+
+void MapRegionVisualization::setColor(const std_msgs::ColorRGBA& color)
+{
+  color_ = color;
+}
+
+void MapRegionVisualization::setLineWidth(const double lineWidth)
+{
+  lineWidth_ = lineWidth;
 }
 
 bool MapRegionVisualization::visualize(const grid_map::GridMap& map)

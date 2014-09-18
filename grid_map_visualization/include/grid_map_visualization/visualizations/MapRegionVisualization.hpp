@@ -46,6 +46,11 @@ class MapRegionVisualization
    */
   bool initialize();
 
+
+  void setColor(const std_msgs::ColorRGBA& color);
+
+  void setLineWidth(const double lineWidth);
+
   /*!
    * Generates the visualization.
    * @param map the grid map to visualize.

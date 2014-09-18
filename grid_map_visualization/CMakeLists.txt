@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(grid_map_visualization)
-
+SET(CMAKE_BUILD_TYPE RelWithDebInfo) # Release, RelWithDebInfo
 set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
 ## Find catkin macros and libraries
@@ -28,7 +28,7 @@ find_package(Eigen REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES grid_map_viz
   CATKIN_DEPENDS grid_map_msg visualization_msgs
 #  DEPENDS system_lib
 )
@@ -45,19 +45,23 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/grid_map_visualization_node.cpp
-# )
+add_library(grid_map_viz
+  src/GridMapVisualization.cpp
+  src/GridMapVisualizationHelpers.cpp
+  src/visualizations/PointCloudVisualization.cpp
+  src/visualizations/MapRegionVisualization.cpp
+  src/visualizations/VectorVisualization.cpp
+)
+
+target_link_libraries(
+  grid_map_viz
+  ${catkin_LIBRARIES}
+)
 
 ## Declare a cpp executable
 add_executable(
 	${PROJECT_NAME}
 	src/grid_map_visualization_node.cpp
-	src/GridMapVisualization.cpp
-	src/GridMapVisualizationHelpers.cpp
-	src/visualizations/PointCloudVisualization.cpp
-	src/visualizations/MapRegionVisualization.cpp
-	src/visualizations/VectorVisualization.cpp
 )
 
 ## Add cmake target dependencies of the executable/library
@@ -67,5 +71,5 @@ add_executable(
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
+  grid_map_viz
 )

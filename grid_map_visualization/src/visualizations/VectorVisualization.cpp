@@ -82,7 +82,7 @@ bool VectorVisualization::visualize(const grid_map::GridMap& map)
     if (!map.isValid(*iterator) || !map.isValid(*iterator, types_)) continue;
 
     geometry_msgs::Vector3 vector;
-    vector.x = map.at(types_[0], *iterator);
+    vector.x = map.at(types_[0], *iterator); // FIXME(cfo): segfaults when types is not set
     vector.y = map.at(types_[1], *iterator);
     vector.z = map.at(types_[2], *iterator);
 

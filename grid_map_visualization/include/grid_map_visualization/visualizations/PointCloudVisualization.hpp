@@ -40,6 +40,8 @@ class PointCloudVisualization
    */
   bool initialize();
 
+  void setPointType(const std::string& pointType);
+
   /*!
    * Generates the visualization.
    * @param map the grid map to visualize.

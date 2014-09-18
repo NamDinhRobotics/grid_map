@@ -34,12 +34,18 @@ bool PointCloudVisualization::initialize()
   return true;
 }
 
+void PointCloudVisualization::setPointType(const std::string& pointType)
+{
+  pointType_ = pointType;
+}
+
 bool PointCloudVisualization::visualize(const grid_map::GridMap& map)
 {
   if (pointCloudPublisher_.getNumSubscribers () < 1) return true;
 
   sensor_msgs::PointCloud2 pointCloud;
 
+  // FIXME(cfo): segfaults when pointtype is not set!
   map.toPointCloud(pointCloud, pointType_);
 
   pointCloudPublisher_.publish(pointCloud);

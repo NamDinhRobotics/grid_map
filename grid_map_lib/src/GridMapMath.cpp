@@ -85,19 +85,6 @@ inline Eigen::Array2i getBufferIndexFromIndex(
   return bufferIndex;
 }
 
-inline Eigen::Array2i getIndexFromBufferIndex(
-    const Eigen::Array2i& bufferIndex,
-    const Eigen::Array2i& bufferSize,
-    const Eigen::Array2i& bufferStartIndex)
-{
-  if (checkIfStartIndexAtDefaultPosition(bufferStartIndex))
-    return bufferIndex;
-
-  Array2i index = bufferIndex - bufferStartIndex;
-  mapIndexWithinRange(index, bufferSize);
-  return index;
-}
-
 inline Eigen::Vector2d getIndexVectorFromIndex(
     const Eigen::Array2i& index,
     const Eigen::Array2i& bufferSize,
@@ -128,6 +115,19 @@ inline BufferRegion getMapRegion(const Eigen::Array2i& index, const Eigen::Array
 } // namespace
 
 using namespace internal;
+
+Eigen::Array2i getIndexFromBufferIndex(
+    const Eigen::Array2i& bufferIndex,
+    const Eigen::Array2i& bufferSize,
+    const Eigen::Array2i& bufferStartIndex)
+{
+  if (checkIfStartIndexAtDefaultPosition(bufferStartIndex))
+    return bufferIndex;
+
+  Array2i index = bufferIndex - bufferStartIndex;
+  mapIndexWithinRange(index, bufferSize);
+  return index;
+}
 
 bool getPositionFromIndex(Eigen::Vector2d& position,
                           const Eigen::Array2i& index,

@@ -14,6 +14,11 @@
 
 namespace grid_map_lib {
 
+Eigen::Array2i getIndexFromBufferIndex(
+    const Eigen::Array2i& bufferIndex,
+    const Eigen::Array2i& bufferSize,
+    const Eigen::Array2i& bufferStartIndex);
+
 /*!
  * Gets the position of a cell specified by its index in the map frame.
  * @param[out] position the position of the center of the cell in the map frame.
