@@ -14,6 +14,11 @@
 
 namespace grid_map_lib {
 
+Eigen::Array2i getBufferIndexFromIndex(
+    const Eigen::Array2i& index,
+    const Eigen::Array2i& bufferSize,
+    const Eigen::Array2i& bufferStartIndex);
+
 Eigen::Array2i getIndexFromBufferIndex(
     const Eigen::Array2i& bufferIndex,
     const Eigen::Array2i& bufferSize,

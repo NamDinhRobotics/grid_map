@@ -72,19 +72,6 @@ inline bool checkIfStartIndexAtDefaultPosition(const Eigen::Array2i& bufferStart
   return ((bufferStartIndex == 0).all());
 }
 
-inline Eigen::Array2i getBufferIndexFromIndex(
-    const Eigen::Array2i& index,
-    const Eigen::Array2i& bufferSize,
-    const Eigen::Array2i& bufferStartIndex)
-{
-  if (checkIfStartIndexAtDefaultPosition(bufferStartIndex))
-    return index;
-
-  Array2i bufferIndex = index + bufferStartIndex;
-  mapIndexWithinRange(bufferIndex, bufferSize);
-  return bufferIndex;
-}
-
 inline Eigen::Vector2d getIndexVectorFromIndex(
     const Eigen::Array2i& index,
     const Eigen::Array2i& bufferSize,
@@ -115,6 +102,19 @@ inline BufferRegion getMapRegion(const Eigen::Array2i& index, const Eigen::Array
 } // namespace
 
 using namespace internal;
+
+Eigen::Array2i getBufferIndexFromIndex(
+    const Eigen::Array2i& index,
+    const Eigen::Array2i& bufferSize,
+    const Eigen::Array2i& bufferStartIndex)
+{
+  if (checkIfStartIndexAtDefaultPosition(bufferStartIndex))
+    return index;
+
+  Array2i bufferIndex = index + bufferStartIndex;
+  mapIndexWithinRange(bufferIndex, bufferSize);
+  return bufferIndex;
+}
 
 Eigen::Array2i getIndexFromBufferIndex(
     const Eigen::Array2i& bufferIndex,
