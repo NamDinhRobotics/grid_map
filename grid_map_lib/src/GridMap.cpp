@@ -67,6 +67,13 @@ void GridMap::setClearTypes(const std::vector<std::string>& clearTypes)
   clearTypes_ = clearTypes;
 }
 
+bool GridMap::isType(const std::string& type) const
+{
+  if(data_.find(type) == data_.end())
+    return false;
+  return true;
+}
+
 const Eigen::MatrixXf& GridMap::get(const std::string& type) const
 {
   return data_.at(type);

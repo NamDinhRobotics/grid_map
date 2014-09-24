@@ -60,6 +60,13 @@ class GridMap
   void setClearTypes(const std::vector<std::string>& clearTypes);
 
   /*!
+   * Check if type is available
+   * @param name of the query type
+   * @return true if type is available
+   */
+  bool isType(const std::string& type) const;
+
+  /*!
    * Returns the grid map data for a type.
    * @param type the data to be returned.
    * @return grid map data.

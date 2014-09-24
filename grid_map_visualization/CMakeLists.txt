@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(grid_map_visualization)
-SET(CMAKE_BUILD_TYPE RelWithDebInfo) # Release, RelWithDebInfo
+SET(CMAKE_BUILD_TYPE Release) # Release, RelWithDebInfo
 set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
 ## Find catkin macros and libraries
@@ -51,6 +51,11 @@ add_library(grid_map_viz
   src/visualizations/PointCloudVisualization.cpp
   src/visualizations/MapRegionVisualization.cpp
   src/visualizations/VectorVisualization.cpp
+  src/visualizations/ElevationVisualization.cpp
+  include/grid_map_visualization/visualizations/PointCloudVisualization.hpp
+  include/grid_map_visualization/visualizations/MapRegionVisualization.hpp
+  include/grid_map_visualization/visualizations/VectorVisualization.hpp
+  include/grid_map_visualization/visualizations/ElevationVisualization.hpp
 )
 
 target_link_libraries(
