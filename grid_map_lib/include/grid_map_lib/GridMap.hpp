@@ -239,6 +239,9 @@ class GridMap
    */
   const Eigen::Array2i& getBufferStartIndex() const;
 
+  float getMaxValue(const std::string& type) const;
+  float getMinValue(const std::string& type) const;
+
  protected:
 
   /*!

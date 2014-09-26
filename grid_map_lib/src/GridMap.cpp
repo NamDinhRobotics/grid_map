@@ -283,6 +283,43 @@ const Eigen::Array2i& GridMap::getBufferStartIndex() const
   return bufferStartIndex_;
 }
 
+float GridMap::getMaxValue(const std::string& type) const
+{
+  const Eigen::MatrixXf& grid = get(type);
+  const int rows = bufferSize_(0);
+  const int cols = bufferSize_(1);
+  float maxval = std::numeric_limits<float>::min();
+  for(int i=0; i<rows; ++i)
+  {
+    for(int j=0; j<cols; ++j)
+    {
+      const float& val = grid(i,j);
+      if(!std::isnan(val))
+        maxval = std::max(val, maxval);
+    }
+  }
+  return maxval;
+}
+
+float GridMap::getMinValue(const std::string& type) const
+{
+  // Problem: can't use Eigen::minCoeff() because it doesn't work with NaN
+  const Eigen::MatrixXf& grid = get(type);
+  const int rows = bufferSize_(0);
+  const int cols = bufferSize_(1);
+  float minval = std::numeric_limits<float>::max();
+  for(int i=0; i<rows; ++i)
+  {
+    for(int j=0; j<cols; ++j)
+    {
+      const float& val = grid(i,j);
+      if(!std::isnan(val))
+        minval = std::min(val, minval);
+    }
+  }
+  return minval;
+}
+
 void GridMap::clear()
 {
   for (auto& key : clearTypes_) {

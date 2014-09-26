@@ -18,6 +18,10 @@ namespace grid_map_visualization {
 ElevationVisualization::ElevationVisualization(ros::NodeHandle& nodeHandle)
   : nodeHandle_(nodeHandle)
   , markerHeight_(1.0)
+  , lowerColorValue_(255)
+  , upperColorValue_(16711680)
+  , lowerColor_(grid_map_visualization::color_utils::colorFromColorValue(lowerColorValue_))
+  , upperColor_(grid_map_visualization::color_utils::colorFromColorValue(upperColorValue_))
 {
   markerPublisher_ =
       nodeHandle_.advertise<visualization_msgs::Marker>("elevation", 1, true);
@@ -46,8 +50,8 @@ void ElevationVisualization::visualize(
     const grid_map::GridMap& map,
     const std::string& typeNameElevation,
     const std::string& typeNameColor,
-    const float colorScale,
-    const float colorOffset)
+    const float lowerValueBound,
+    const float upperValueBound)
 {
   // Set marker info.
   marker_.header.frame_id = map.getFrameId();
@@ -75,7 +79,7 @@ void ElevationVisualization::visualize(
       const float& elevation = map.at(typeNameElevation, buffIndex);
       if(std::isnan(elevation))
         continue;
-      const float color = haveColor ? map.at(typeNameColor, buffIndex)*colorScale+colorOffset : 1.0;
+      const float color = haveColor ? map.at(typeNameColor, buffIndex) : lowerValueBound;
 
       // Add marker point.
       Eigen::Vector2d position;
@@ -89,11 +93,9 @@ void ElevationVisualization::visualize(
       // Add marker color.
       if(haveColor)
       {
-        std_msgs::ColorRGBA markerColor;
-        markerColor.a = 1.0;
-        markerColor.r = color;
-        markerColor.g = color;
-        markerColor.b = color;
+        std_msgs::ColorRGBA markerColor =
+            grid_map_visualization::color_utils::interpolateBetweenColors(
+              color, lowerValueBound, upperValueBound, lowerColor_, upperColor_);
         marker_.colors.push_back(markerColor);
       }
     }
