@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(grid_map)
 
 set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+SET(CMAKE_BUILD_TYPE Release) # Release, RelWithDebInfo
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
