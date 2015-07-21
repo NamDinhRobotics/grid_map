@@ -52,10 +52,12 @@ add_library(grid_map_viz
   src/visualizations/MapRegionVisualization.cpp
   src/visualizations/VectorVisualization.cpp
   src/visualizations/ElevationVisualization.cpp
+  src/visualizations/SurfaceVisualization.cpp
   include/grid_map_visualization/visualizations/PointCloudVisualization.hpp
   include/grid_map_visualization/visualizations/MapRegionVisualization.hpp
   include/grid_map_visualization/visualizations/VectorVisualization.hpp
   include/grid_map_visualization/visualizations/ElevationVisualization.hpp
+  include/grid_map_visualization/visualizations/SurfaceVisualization.hpp
 )
 
 target_link_libraries(
