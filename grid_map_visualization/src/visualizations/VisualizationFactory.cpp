@@ -12,6 +12,7 @@
 #include <grid_map_visualization/visualizations/OccupancyGridVisualization.hpp>
 #include <grid_map_visualization/visualizations/GridCellsVisualization.hpp>
 #include <grid_map_visualization/visualizations/MapRegionVisualization.hpp>
+#include <grid_map_visualization/visualizations/SemanticLabelsVisualization.hpp>
 
 // STL
 #include <algorithm>
@@ -26,6 +27,7 @@ VisualizationFactory::VisualizationFactory(ros::NodeHandle& nodeHandle)
   types_.push_back("occupancy_grid");
   types_.push_back("grid_cells");
   types_.push_back("map_region");
+  types_.push_back("semantic_labels");
 }
 
 VisualizationFactory::~VisualizationFactory()
@@ -46,6 +48,7 @@ std::shared_ptr<VisualizationBase> VisualizationFactory::getInstance(const std::
   if (type == "occupancy_grid") return std::shared_ptr<VisualizationBase>(new OccupancyGridVisualization(nodeHandle_, name));
   if (type == "grid_cells") return std::shared_ptr<VisualizationBase>(new GridCellsVisualization(nodeHandle_, name));
   if (type == "map_region") return std::shared_ptr<VisualizationBase>(new MapRegionVisualization(nodeHandle_, name));
+  if (type == "semantic_labels") return std::shared_ptr<VisualizationBase>(new SemanticLabelsVisualization(nodeHandle_, name));
   return std::shared_ptr<VisualizationBase>();
 }
 

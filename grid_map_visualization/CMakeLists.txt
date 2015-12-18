@@ -81,6 +81,7 @@ add_executable(
 	src/visualizations/OccupancyGridVisualization.cpp
 	src/visualizations/GridCellsVisualization.cpp
 	src/visualizations/MapRegionVisualization.cpp
+  src/visualizations/SemanticLabelsVisualization.cpp
 )
 
 ## Add cmake target dependencies of the executable/library
