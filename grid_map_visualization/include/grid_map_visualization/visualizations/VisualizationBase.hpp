@@ -93,6 +93,22 @@ class VisualizationBase
    */
   bool getParam(const std::string&name, int& value);
 
+  /*!
+   * Get visualization parameters as an vector of integers.
+   * @param[in] name the name of the parameter
+   * @param[out] value the vector of ints to set with the values.
+   * @return true if parameter was found, false otherwise.
+   */
+  bool getParam(const std::string&name, std::vector<int>& value);
+
+  /*!
+   * Get visualization parameters as an vector of strings.
+   * @param[in] name the name of the parameter
+   * @param[out] value the vector of strings to set with the values.
+   * @return true if parameter was found, false otherwise.
+   */
+  bool getParam(const std::string&name, std::vector<std::string>& value);
+
   //! ROS nodehandle.
   ros::NodeHandle& nodeHandle_;
 

@@ -87,4 +87,30 @@ bool VisualizationBase::getParam(const std::string&name, int& value)
   return true;
 }
 
+bool VisualizationBase::getParam(const std::string&name, std::vector<int>& value)
+{
+  StringMap::iterator it = parameters_.find(name);
+  if (it == parameters_.end()) return false;
+  if(it->second.getType() != XmlRpc::XmlRpcValue::TypeArray) return false;
+  for(size_t i = 0; i < it->second.size(); ++i)
+  {
+    if(it->second[i].getType() == XmlRpc::XmlRpcValue::TypeInt)
+      value.push_back(static_cast<int>(it->second[i]));
+  }
+  return true;
+}
+
+bool VisualizationBase::getParam(const std::string&name, std::vector<std::string>& value)
+{
+  StringMap::iterator it = parameters_.find(name);
+  if (it == parameters_.end()) return false;
+  if(it->second.getType() != XmlRpc::XmlRpcValue::TypeArray) return false;
+  for(size_t i = 0; i < it->second.size(); ++i)
+  {
+    if(it->second[i].getType() == XmlRpc::XmlRpcValue::TypeString)
+      value.push_back(std::string(it->second[i]));
+  }
+  return true;
+}
+
 } /* namespace */

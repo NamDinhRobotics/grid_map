@@ -56,10 +56,17 @@ class SemanticLabelsVisualization : public VisualizationBase
 
  private:
 
-  //! Type that is transformed to points.
+  Eigen::Vector3i colorVectorFromFloat(const float color);
+  void multiplyColors(Eigen::Vector3i& rgb, Eigen::Vector3f label);
+
+  //! Layer that is transformed to points.
   std::string elevationLayer_;
-  //! Type that is used for labels.
+  //! Layer that is used for labels.
   std::string labelLayer_;
+  //! Class names for label 
+  std::vector<std::string> labelNames_;
+  //! RGB triples for label colors
+  std::vector<Eigen::Vector3f> labelColors_;
 };
 
 } /* namespace */
