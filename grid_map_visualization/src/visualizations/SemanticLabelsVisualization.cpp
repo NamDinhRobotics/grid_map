@@ -19,6 +19,11 @@ namespace grid_map_visualization {
 SemanticLabelsVisualization::SemanticLabelsVisualization(ros::NodeHandle& nodeHandle, const std::string& name)
     : VisualizationBase(nodeHandle, name)
 {
+  unsigned long result;
+  grid_map::colorVectorToValue(Eigen::Vector3i(255, 255, 0), result);
+  ROS_INFO("yellow: %u", result);
+  grid_map::colorVectorToValue(Eigen::Vector3i(100, 100, 100), result);
+  ROS_INFO("gray: %u", result);
 }
 
 SemanticLabelsVisualization::~SemanticLabelsVisualization()
@@ -43,6 +48,11 @@ bool SemanticLabelsVisualization::readParameters(XmlRpc::XmlRpcValue& config)
     return false;
   }
 
+  if (!getParam("path_offset", pathOffset_)) {
+    ROS_ERROR("SemanticLabelsVisualization with name '%s' did not find an 'path_offset' parameter.", name_.c_str());
+    return false;
+  }
+
   if (!getParam("label_names", labelNames_)) {
     ROS_ERROR("SemanticLabelsVisualization with name '%s' did not find a 'label_names' parameter.", name_.c_str());
     return false;
@@ -59,7 +69,7 @@ bool SemanticLabelsVisualization::readParameters(XmlRpc::XmlRpcValue& config)
   }
   for(auto c : colorInts)
   {
-    Eigen::Vector3i rgb;
+    Eigen::Vector3f rgb;
     grid_map::colorValueToVector(static_cast<unsigned long>(c), rgb);
     labelColors_.push_back(rgb);
   }
@@ -101,6 +111,7 @@ bool SemanticLabelsVisualization::visualize(const grid_map::GridMap& mapMsg)
     return false;
   }
  
+  ROS_INFO("callback of visualize!");
 
   float path_color;
   grid_map::colorVectorToValue(Eigen::Vector3i(255, 0, 0), path_color);
@@ -108,7 +119,7 @@ bool SemanticLabelsVisualization::visualize(const grid_map::GridMap& mapMsg)
   for (grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it)
   {
     // find label with highest probability
-    int max_p_index;
+    int max_p_index = -1;
     float max_p = 0.0;
     for (int i=0; i<labelNames_.size(); i++)
     {
@@ -120,18 +131,38 @@ bool SemanticLabelsVisualization::visualize(const grid_map::GridMap& mapMsg)
       }
     }
 
-    // add elevation with color
-    float color_value;
-    grid_map::colorVectorToValue(labelColors_[max_p_index], color_value);
-    map.at("color", *it) = color_value;
 
     // add elevation offset
-    map.at(elevationLayer_, *it) += elevationOffset_;
+    if (!map.isValid(*it, elevationLayer_) && max_p > 1./(double) labelColors_.size() + 0.01)
+    {
+      map.at(elevationLayer_, *it) = 0.0;
+
+      // add elevation with color
+      auto& colorVal = map.at("color", *it);
+      Eigen::Vector3i rgbVec = Eigen::Vector3i(255, 255, 255);
+      if(max_p_index >= 0 && max_p_index < labelColors_.size())
+      {
+        multiplyColors(rgbVec, labelColors_.at(max_p_index));
+        grid_map::colorVectorToValue(rgbVec, colorVal);
+      }
+    }
+    else
+    {
+      map.at(elevationLayer_, *it) += elevationOffset_;
+
+      // add elevation with color
+      auto& colorVal = map.at("color", *it);
+      Eigen::Vector3i rgbVec = colorVectorFromFloat(colorVal);
+      if(max_p_index >= 0 && max_p_index < labelColors_.size())
+      {
+        multiplyColors(rgbVec, labelColors_.at(max_p_index));
+        grid_map::colorVectorToValue(rgbVec, colorVal);
+      }
+    }
 
     // add path in red above terrain
-    if (map.at("path", *it) > 0)
-    {
-      map.at(elevationLayer_, *it) += 0.5;
+    if (map.isValid(*it, "path"))
+    {;
       map.at("color", *it) = path_color;
     }
   }
