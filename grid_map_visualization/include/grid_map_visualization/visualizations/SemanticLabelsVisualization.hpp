@@ -61,12 +61,14 @@ class SemanticLabelsVisualization : public VisualizationBase
 
   //! Layer that is transformed to points.
   std::string elevationLayer_;
+  //! Offset of the elevation
+  float elevationOffset_;
   //! Layer that is used for labels.
-  std::string labelLayer_;
+  std::string pathLayer_;
   //! Class names for label 
   std::vector<std::string> labelNames_;
   //! RGB triples for label colors
-  std::vector<Eigen::Vector3f> labelColors_;
+  std::vector<Eigen::Vector3i> labelColors_;
 };
 
 } /* namespace */
