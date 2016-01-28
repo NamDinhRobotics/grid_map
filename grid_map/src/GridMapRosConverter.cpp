@@ -430,7 +430,7 @@ bool GridMapRosConverter::saveToBag(const grid_map::GridMap& gridMap, const std:
   }
 
   rosbag::Bag bag;
-  bag.open(pathToBag, rosbag::bagmode::Write);
+  bag.open(pathToBag, rosbag::bagmode::Append);
   bag.write(topic, time, message);
   bag.close();
   return true;
