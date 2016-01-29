@@ -162,8 +162,10 @@ bool SemanticLabelsVisualization::visualize(const grid_map::GridMap& mapMsg)
 
     // add path in red above terrain
     if (map.isValid(*it, "path"))
-    {;
+    {
       map.at("color", *it) = path_color;
+      if (!map.isValid(*it, elevationLayer_))
+        map.at(elevationLayer_, *it) = 0.0;
     }
   }
 
