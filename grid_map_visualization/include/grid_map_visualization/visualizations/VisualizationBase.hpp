@@ -94,6 +94,14 @@ class VisualizationBase
   bool getParam(const std::string&name, int& value);
 
   /*!
+   * Get a visualization parameter as an boolean.
+   * @param[in] name the name of the parameter
+   * @param[out] value the bool to set with the value.
+   * @return true if parameter was found, false otherwise.
+   */
+  bool getParam(const std::string&name, bool& value);
+
+  /*!
    * Get visualization parameters as an vector of integers.
    * @param[in] name the name of the parameter
    * @param[out] value the vector of ints to set with the values.

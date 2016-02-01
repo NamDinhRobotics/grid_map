@@ -87,6 +87,15 @@ bool VisualizationBase::getParam(const std::string&name, int& value)
   return true;
 }
 
+bool VisualizationBase::getParam(const std::string&name, bool& value)
+{
+  StringMap::iterator it = parameters_.find(name);
+  if (it == parameters_.end()) return false;
+  if(it->second.getType() != XmlRpc::XmlRpcValue::TypeBoolean) return false;
+  value = it->second;
+  return true;
+}
+
 bool VisualizationBase::getParam(const std::string&name, std::vector<int>& value)
 {
   StringMap::iterator it = parameters_.find(name);
