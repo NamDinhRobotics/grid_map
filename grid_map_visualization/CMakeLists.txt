@@ -82,6 +82,7 @@ add_executable(
 	src/visualizations/GridCellsVisualization.cpp
 	src/visualizations/MapRegionVisualization.cpp
   src/visualizations/SemanticLabelsVisualization.cpp
+  src/visualizations/TerrainMapVisualization.cpp
 )
 
 ## Add cmake target dependencies of the executable/library
