@@ -19,11 +19,10 @@ namespace grid_map_visualization {
 TerrainMapVisualization::TerrainMapVisualization(ros::NodeHandle& nodeHandle, const std::string& name)
     : VisualizationBase(nodeHandle, name)
 {
+  // this code is to convert RGB to unsigned long values
   unsigned long result;
   grid_map::colorVectorToValue(Eigen::Vector3i(255, 255, 0), result);
-  ROS_INFO("yellow: %u", result);
-  grid_map::colorVectorToValue(Eigen::Vector3i(100, 100, 100), result);
-  ROS_INFO("gray: %u", result);
+  ROS_INFO("your color: %u", result);
 }
 
 TerrainMapVisualization::~TerrainMapVisualization()
@@ -41,6 +40,11 @@ bool TerrainMapVisualization::readParameters(XmlRpc::XmlRpcValue& config)
   if (!getParam("elevation_offset", elevationOffset_)) {
     ROS_ERROR("TerrainMapVisualization with name '%s' did not find an 'elevation_offset' parameter.", name_.c_str());
     return false;
+  }
+
+  // this parameter is not required, and by default set to false
+  if (!getParam("only_show_elevation", onlyShowElevation_)) {
+    onlyShowElevation_ = false;
   }
 
   if (!getParam("path_layer", pathLayer_)) {
@@ -118,6 +122,10 @@ bool TerrainMapVisualization::visualize(const grid_map::GridMap& mapMsg)
 
   for (grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it)
   {
+    // skip points without elevation
+    if (!map.isValid(*it, elevationLayer_) && onlyShowElevation_)
+      continue;
+
     // find label with highest probability
     int max_p_index = -1;
     float max_p = 0.0;
