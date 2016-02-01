@@ -2,7 +2,7 @@
  * SemanticLabelsVisualization.hpp
  *
  *  Created on: Dec 18, 2015
- *      Author: Jeff Delmerico 
+ *      Author: Jeff Delmerico
  *   Institute: Uni Zurich, Robotics and Perception Group
  */
 
@@ -61,13 +61,9 @@ class SemanticLabelsVisualization : public VisualizationBase
 
   //! Layer that is transformed to points.
   std::string elevationLayer_;
-  //! Offset of the elevation
-  float elevationOffset_;
   //! Layer that is used for labels.
-  std::string pathLayer_;
-  //! Offset of the path
-  float pathOffset_;
-  //! Class names for label 
+  std::string labelLayer_;
+  //! Class names for label
   std::vector<std::string> labelNames_;
   //! RGB triples for label colors
   std::vector<Eigen::Vector3f> labelColors_;
