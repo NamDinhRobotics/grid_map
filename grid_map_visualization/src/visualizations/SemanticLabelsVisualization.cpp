@@ -112,12 +112,17 @@ bool SemanticLabelsVisualization::visualize(const grid_map::GridMap& mapMsg)
   }
  
   ROS_INFO("callback of visualize!");
+  
 
   float path_color;
   grid_map::colorVectorToValue(Eigen::Vector3i(255, 0, 0), path_color);
 
   for (grid_map::GridMapIterator it(map); !it.isPastEnd(); ++it)
   {
+
+    if (!map.isValid(*it, elevationLayer_))
+    continue;
+
     // find label with highest probability
     int max_p_index = -1;
     float max_p = 0.0;
