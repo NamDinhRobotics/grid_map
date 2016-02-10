@@ -1,20 +1,31 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(grid_map)
 
-set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
-SET(CMAKE_BUILD_TYPE Release) # Release, RelWithDebInfo
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
+# Set the build type.  Options are:
+#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
+#  Debug          : w/ debug symbols, w/o optimization
+#  Release        : w/o debug symbols, w/ optimization
+#  RelWithDebInfo : w/ debug symbols, w/ optimization
+#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
+#set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
-  cmake_modules
   roscpp
-  grid_map_lib
-  grid_map_msg
+  grid_map_core
+  grid_map_msgs
   sensor_msgs
+  nav_msgs
+  std_msgs
+  geometry_msgs
+  cv_bridge
+  rosbag
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(Eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -26,10 +37,20 @@ find_package(Eigen REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-    INCLUDE_DIRS include
-    LIBRARIES ${PROJECT_NAME}
-    CATKIN_DEPENDS grid_map_lib
-    DEPENDS Eigen
+    INCLUDE_DIRS
+      include
+    LIBRARIES
+      ${PROJECT_NAME}
+    CATKIN_DEPENDS
+      roscpp
+      grid_map_core
+      grid_map_msgs
+      sensor_msgs
+      nav_msgs
+      std_msgs
+      geometry_msgs
+    DEPENDS
+      Eigen3
 )
 
 ###########
@@ -40,15 +61,33 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${EIGEN_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a cpp library
-add_library(${PROJECT_NAME}
-   src/GridMap.cpp
-   src/GridMapMsgHelpers.cpp
+add_library(
+  ${PROJECT_NAME}
+  src/GridMapRosConverter.cpp
+  src/GridMapMsgHelpers.cpp
+  src/PolygonRosConverter.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
+
+add_dependencies(
+  ${PROJECT_NAME}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+#############
+## Testing ##
+#############
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+## Add gtest based cpp test target and link libraries
+catkin_add_gtest(${PROJECT_NAME}-test test/test_grid_map.cpp test/GridMapTest.cpp)
+if(TARGET ${PROJECT_NAME}-test)
+  target_link_libraries(${PROJECT_NAME}-test grid_map)
+endif()

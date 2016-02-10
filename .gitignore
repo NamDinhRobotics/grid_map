@@ -31,3 +31,7 @@
 .cproject
 .project
 .settings
+*.pydevproject
+
+# OS X
+.DS_Store

@@ -1,21 +1,30 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(grid_map_visualization)
 SET(CMAKE_BUILD_TYPE Release) # Release, RelWithDebInfo
-set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+
+# Set the build type.  Options are:
+#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
+#  Debug          : w/ debug symbols, w/o optimization
+#  Release        : w/o debug symbols, w/ optimization
+#  RelWithDebInfo : w/ debug symbols, w/ optimization
+#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
+#set(CMAKE_BUILD_TYPE RelWithDebInfo)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
-  cmake_modules
   roscpp
   tf
   grid_map
-  grid_map_msg
+  grid_map_core
+  grid_map_msgs
   visualization_msgs
-  eigen_stl_containers
+  sensor_msgs
+  nav_msgs
+  sensor_msgs
 )
 
-## System dependencies are found with CMake's conventions
-find_package(Eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -27,10 +36,18 @@ find_package(Eigen REQUIRED)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES grid_map_viz
-  CATKIN_DEPENDS grid_map_msg visualization_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS
+    include
+  CATKIN_DEPENDS
+    roscpp
+    tf
+    grid_map
+    grid_map_core
+    grid_map_msgs
+    visualization_msgs
+    sensor_msgs
+    nav_msgs
+    sensor_msgs
 )
 
 ###########
@@ -42,20 +59,22 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a cpp library
 add_library(grid_map_viz
   src/GridMapVisualization.cpp
   src/GridMapVisualizationHelpers.cpp
+	src/visualizations/VisualizationBase.cpp
+	src/visualizations/VisualizationFactory.cpp
   src/visualizations/PointCloudVisualization.cpp
-  src/visualizations/MapRegionVisualization.cpp
   src/visualizations/VectorVisualization.cpp
-  src/visualizations/ElevationVisualization.cpp
-  src/visualizations/SurfaceVisualization.cpp
-  include/grid_map_visualization/visualizations/PointCloudVisualization.hpp
-  include/grid_map_visualization/visualizations/MapRegionVisualization.hpp
-  include/grid_map_visualization/visualizations/VectorVisualization.hpp
+	src/visualizations/OccupancyGridVisualization.cpp
+	src/visualizations/GridCellsVisualization.cpp
+	src/visualizations/MapRegionVisualization.cpp
+  src/visualizations/SemanticLabelsVisualization.cpp
+  src/visualizations/TerrainMapVisualization.cpp
   include/grid_map_visualization/visualizations/ElevationVisualization.hpp
   include/grid_map_visualization/visualizations/SurfaceVisualization.hpp
 )
