@@ -115,8 +115,6 @@ bool TerrainMapVisualization::visualize(const grid_map::GridMap& mapMsg)
     return false;
   }
 
-  ROS_INFO("callback of visualize!");
-
   float path_color;
   grid_map::colorVectorToValue(Eigen::Vector3i(255, 0, 0), path_color);
 

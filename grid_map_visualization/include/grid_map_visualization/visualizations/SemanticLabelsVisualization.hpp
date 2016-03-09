@@ -67,6 +67,15 @@ class SemanticLabelsVisualization : public VisualizationBase
   std::vector<std::string> labelNames_;
   //! RGB triples for label colors
   std::vector<Eigen::Vector3f> labelColors_;
+  //! Offset of the elevation
+  float elevationOffset_;
+  //! Only show points with elevation
+  bool onlyShowElevation_;
+  //! Layer that is used for labels.
+  std::string pathLayer_;
+  //! Offset of the path
+  float pathOffset_;
+
 };
 
 } /* namespace */
