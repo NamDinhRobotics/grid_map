@@ -124,8 +124,18 @@ namespace grid_map_visualization {
       }
 
 
+
       auto& colorVal = map.at("color", *iterator);
-      Eigen::Vector3i rgbVec = Eigen::Vector3i(255, 255, 255);
+      Eigen::Vector3i rgbVec;
+      if (!map.isValid(*iterator, elevationLayer_))
+      {
+        rgbVec = Eigen::Vector3i(255, 255, 255);
+      }
+      else
+      {
+        rgbVec = colorVectorFromFloat(colorVal);
+      }
+
       if(map.isValid(*iterator, labelLayer_))
       {
         auto labelIndex = static_cast<int>(map.at(labelLayer_, *iterator));
