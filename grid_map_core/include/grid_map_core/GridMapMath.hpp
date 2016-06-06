@@ -27,13 +27,13 @@ namespace grid_map {
  * @param[in] bufferStartIndex the index of the starting point of the circular buffer (optional).
  * @return true if successful, false if index not within range of buffer.
  */
-bool getPositionFromIndex(Eigen::Vector2d& position,
-                          const Eigen::Array2i& index,
-                          const Eigen::Array2d& mapLength,
-                          const Eigen::Vector2d& mapPosition,
+bool getPositionFromIndex(Position& position,
+                          const Index& index,
+                          const Length& mapLength,
+                          const Position& mapPosition,
                           const double& resolution,
-                          const Eigen::Array2i& bufferSize,
-                          const Eigen::Array2i& bufferStartIndex = Eigen::Array2i::Zero());
+                          const Size& bufferSize,
+                          const Index& bufferStartIndex = Index::Zero());
 
 /*!
  * Gets the index of the cell which contains a position in the map frame.
@@ -46,13 +46,13 @@ bool getPositionFromIndex(Eigen::Vector2d& position,
  * @param[in] bufferStartIndex the index of the starting point of the circular buffer (optional).
  * @return true if successful, false if position outside of map.
  */
-bool getIndexFromPosition(Eigen::Array2i& index,
-                          const Eigen::Vector2d& position,
-                          const Eigen::Array2d& mapLength,
-                          const Eigen::Vector2d& mapPosition,
+bool getIndexFromPosition(Index& index,
+                          const Position& position,
+                          const Length& mapLength,
+                          const Position& mapPosition,
                           const double& resolution,
-                          const Eigen::Array2i& bufferSize,
-                          const Eigen::Array2i& bufferStartIndex = Eigen::Array2i::Zero());
+                          const Size& bufferSize,
+                          const Index& bufferStartIndex = Index::Zero());
 
 /*!
  * Checks if position is within the map boundaries.
@@ -61,9 +61,9 @@ bool getIndexFromPosition(Eigen::Array2i& index,
  * @param[in] mapPosition the position of the map.
  * @return true if position is within map, false otherwise.
  */
-bool checkIfPositionWithinMap(const Eigen::Vector2d& position,
-                              const Eigen::Array2d& mapLength,
-                              const Eigen::Vector2d& mapPosition);
+bool checkIfPositionWithinMap(const Position& position,
+                              const Length& mapLength,
+                              const Position& mapPosition);
 
 /*!
  * Gets the position of the data structure origin.
@@ -71,9 +71,9 @@ bool checkIfPositionWithinMap(const Eigen::Vector2d& position,
  * @param[in] mapLength the map length.
  * @param[out] positionOfOrigin the position of the data structure origin.
  */
-void getPositionOfDataStructureOrigin(const Eigen::Vector2d& position,
-                                      const Eigen::Array2d& mapLength,
-                                      Eigen::Vector2d& positionOfOrigin);
+void getPositionOfDataStructureOrigin(const Position& position,
+                                      const Length& mapLength,
+                                      Position& positionOfOrigin);
 
 /*!
  * Computes how many cells/indeces the map is moved based on a position shift in
@@ -84,8 +84,8 @@ void getPositionOfDataStructureOrigin(const Eigen::Vector2d& position,
  * @param[in] resolution the resolution of the map.
  * @return true if successful.
  */
-bool getIndexShiftFromPositionShift(Eigen::Array2i& indexShift,
-                                    const Eigen::Vector2d& positionShift,
+bool getIndexShiftFromPositionShift(Index& indexShift,
+                                    const Vector& positionShift,
                                     const double& resolution);
 
 /*!
@@ -97,8 +97,8 @@ bool getIndexShiftFromPositionShift(Eigen::Array2i& indexShift,
  * @param[in] resolution the resolution of the map.
  * @return true if successful.
  */
-bool getPositionShiftFromIndexShift(Eigen::Vector2d& positionShift,
-                                    const Eigen::Array2i& indexShift,
+bool getPositionShiftFromIndexShift(Vector& positionShift,
+                                    const Index& indexShift,
                                     const double& resolution);
 
 /*!
@@ -107,7 +107,7 @@ bool getPositionShiftFromIndexShift(Eigen::Vector2d& positionShift,
  * @param[in] bufferSize the size of the buffer.
  * @return true if index is within, and false if index is outside of the buffer.
  */
-bool checkIfIndexWithinRange(const Eigen::Array2i& index, const Eigen::Array2i& bufferSize);
+bool checkIfIndexWithinRange(const Index& index, const Size& bufferSize);
 
 /*!
  * Maps an index that runs out of the range of the circular buffer back into allowed the region.
@@ -115,8 +115,8 @@ bool checkIfIndexWithinRange(const Eigen::Array2i& index, const Eigen::Array2i& 
  * @param[in/out] index the indeces that will be mapped into the valid region of the buffer.
  * @param[in] bufferSize the size of the buffer.
  */
-void mapIndexWithinRange(Eigen::Array2i& index,
-                         const Eigen::Array2i& bufferSize);
+void mapIndexWithinRange(Index& index,
+                         const Size& bufferSize);
 
 /*!
  * Maps an index that runs out of the range of the circular buffer back into allowed the region.
@@ -131,9 +131,9 @@ void mapIndexWithinRange(int& index, const int& bufferSize);
  * @param[in] mapLength the lengths in x and y direction.
  * @param[in] mapPosition the position of the map.
  */
-void limitPositionToRange(Eigen::Vector2d& position,
-                          const Eigen::Array2d& mapLength,
-                          const Eigen::Vector2d& mapPosition);
+void limitPositionToRange(Position& position,
+                          const Length& mapLength,
+                          const Position& mapPosition);
 
 /*!
  * Provides the alignment transformation from the buffer order (outer/inner storage)
@@ -161,18 +161,27 @@ const Eigen::Matrix2i getBufferOrderToMapFrameAlignment();
  * @param[in] bufferStartIndex the index of the starting point of the circular buffer (optional).
  * @return true if successful.
  */
-bool getSubmapInformation(Eigen::Array2i& submapTopLeftIndex,
-                          Eigen::Array2i& submapBufferSize,
-                          Eigen::Vector2d& submapPosition,
-                          Eigen::Array2d& submapLength,
-                          Eigen::Array2i& requestedIndexInSubmap,
-                          const Eigen::Vector2d& requestedSubmapPosition,
-                          const Eigen::Vector2d& requestedSubmapLength,
-                          const Eigen::Array2d& mapLength,
-                          const Eigen::Vector2d& mapPosition,
+bool getSubmapInformation(Index& submapTopLeftIndex,
+                          Size& submapBufferSize,
+                          Position& submapPosition,
+                          Length& submapLength,
+                          Index& requestedIndexInSubmap,
+                          const Position& requestedSubmapPosition,
+                          const Length& requestedSubmapLength,
+                          const Length& mapLength,
+                          const Position& mapPosition,
                           const double& resolution,
-                          const Eigen::Array2i& bufferSize,
-                          const Eigen::Array2i& bufferStartIndex = Eigen::Array2i::Zero());
+                          const Size& bufferSize,
+                          const Index& bufferStartIndex = Index::Zero());
+
+/*!
+ * Computes the buffer size of a submap given a top left and a lower right index.
+ * @param topLeftIndex the top left index in the map.
+ * @param bottomRightIndex the bottom right index in the map.
+ * @return buffer size for the submap.
+ */
+Size getSubmapSizeFromCornerIndeces(const Index& topLeftIndex, const Index& bottomRightIndex,
+                                    const Size& bufferSize, const Index& bufferStartIndex);
 
 /*!
  * Computes the regions in the circular buffer that make up the data for
@@ -199,8 +208,8 @@ bool getBufferRegionsForSubmap(std::vector<BufferRegion>& submapBufferRegions,
  * @param[in] bufferStartIndex the map buffer start index.
  * @return true if successfully incremented indeces, false if end of iteration limits are reached.
  */
-bool incrementIndex(Eigen::Array2i& index, const Eigen::Array2i& bufferSize,
-                    const Eigen::Array2i& bufferStartIndex = Eigen::Array2i::Zero());
+bool incrementIndex(Index& index, const Size& bufferSize,
+                    const Index& bufferStartIndex = Index::Zero());
 
 /*!
  * Increases the index by one to iterate through the cells of a submap.
@@ -218,11 +227,9 @@ bool incrementIndex(Eigen::Array2i& index, const Eigen::Array2i& bufferSize,
  * @param[in] bufferStartIndex the map buffer start index.
  * @return true if successfully incremented indeces, false if end of iteration limits are reached.
  */
-bool incrementIndexForSubmap(Eigen::Array2i& submapIndex, Eigen::Array2i& index,
-                             const Eigen::Array2i& submapTopLeftIndex,
-                             const Eigen::Array2i& submapBufferSize,
-                             const Eigen::Array2i& bufferSize,
-                             const Eigen::Array2i& bufferStartIndex = Eigen::Array2i::Zero());
+bool incrementIndexForSubmap(Index& submapIndex, Index& index, const Index& submapTopLeftIndex,
+                             const Size& submapBufferSize, const Size& bufferSize,
+                             const Index& bufferStartIndex = Index::Zero());
 
 /*!
  * Retrieve the index as unwrapped index, i.e., as the corresponding index of a
@@ -236,15 +243,24 @@ Index getIndexFromBufferIndex(const Index& bufferIndex, const Size& bufferSize,
                               const Index& bufferStartIndex);
 
 /*!
- * Returns the 1d index corresponding to the 2d index for either row- or column-major format.
+ * Returns the linear index (1-dim.) corresponding to the regular index (2-dim.) for either
+ * row- or column-major format.
  * Note: Eigen is defaulting to column-major format.
- * @param[in] index the 2d index.
+ * @param[in] index the regular 2d index.
  * @param[in] bufferSize the map buffer size.
- * @param[in] (optional) rowMajor if the 1d index is generated for row-major format.
- * @return the 1d index.
+ * @param[in] (optional) rowMajor if the linear index is generated for row-major format.
+ * @return the linear 1d index.
  */
-unsigned int get1dIndexFrom2dIndex(const Index& index, const Size& bufferSize,
-                                   const bool rowMajor);
+size_t getLinearIndexFromIndex(const Index& index, const Size& bufferSize, const bool rowMajor = false);
+
+/*!
+ * Returns the regular index (2-dim.) corresponding to the linear index (1-dim.) for a given buffer size.
+ * @param[in] linearIndex the he linear 1d index.
+ * @param[in] bufferSize the map buffer size.
+ * @param[in] (optional) rowMajor if the linear index is generated for row-major format.
+ * @return the regular 2d index.
+ */
+Index getIndexFromLinearIndex(const size_t linearIndex, const Size& bufferSize, const bool rowMajor = false);
 
 /*!
  * Generates a list of indices for a region in the map.

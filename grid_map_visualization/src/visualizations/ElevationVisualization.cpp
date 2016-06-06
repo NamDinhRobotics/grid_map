@@ -6,9 +6,9 @@
  *   Institute: ETH Zurich, Autonomous Systems Lab
  */
 
-#include "grid_map/GridMap.hpp"
+#include "grid_map_core/GridMap.hpp"
 #include "grid_map_visualization/visualizations/ElevationVisualization.hpp"
-#include "grid_map_lib/GridMapMath.hpp"
+#include "grid_map_core/GridMapMath.hpp"
 
 // Eigen
 #include <Eigen/Core>

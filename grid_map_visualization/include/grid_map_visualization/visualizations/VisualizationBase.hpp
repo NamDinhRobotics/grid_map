@@ -9,7 +9,6 @@
 #pragma once
 
 #include <grid_map_core/GridMap.hpp>
-#include <filters/filter_base.h>
 
 // ROS
 #include <ros/ros.h>
@@ -91,7 +90,7 @@ class VisualizationBase
    * @param[out] value the int to set with the value.
    * @return true if parameter was found, false otherwise.
    */
-  bool getParam(const std::string&name, int& value);
+  bool getParam(const std::string& name, int& value);
 
   /*!
    * Get a visualization parameter as an boolean.
@@ -99,7 +98,7 @@ class VisualizationBase
    * @param[out] value the bool to set with the value.
    * @return true if parameter was found, false otherwise.
    */
-  bool getParam(const std::string&name, bool& value);
+  bool getParam(const std::string& name, bool& value);
 
   /*!
    * Get visualization parameters as an vector of integers.
@@ -107,7 +106,7 @@ class VisualizationBase
    * @param[out] value the vector of ints to set with the values.
    * @return true if parameter was found, false otherwise.
    */
-  bool getParam(const std::string&name, std::vector<int>& value);
+  bool getParam(const std::string& name, std::vector<int>& value);
 
   /*!
    * Get visualization parameters as an vector of strings.
@@ -115,7 +114,7 @@ class VisualizationBase
    * @param[out] value the vector of strings to set with the values.
    * @return true if parameter was found, false otherwise.
    */
-  bool getParam(const std::string&name, std::vector<std::string>& value);
+  bool getParam(const std::string& name, std::vector<std::string>& value);
 
   //! ROS nodehandle.
   ros::NodeHandle& nodeHandle_;

@@ -6,10 +6,10 @@
  *   Institute: Uni Zurich, Robotics and Perception Group
  */
 
-#include <grid_map/grid_map.hpp>
+#include <grid_map_core/GridMap.hpp>
 #include <grid_map_visualization/visualizations/SemanticLabelsVisualization.hpp>
-#include <grid_map/GridMapRosConverter.hpp>
-#include <grid_map/GridMapMsgHelpers.hpp>
+#include <grid_map_ros/GridMapRosConverter.hpp>
+#include <grid_map_ros/GridMapMsgHelpers.hpp>
 
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud2_iterator.h>

@@ -6,10 +6,10 @@
  *   Institute: Uni Zurich, Robotics and Perception Group
  */
 
-#include <grid_map/grid_map.hpp>
+#include <grid_map_core/GridMap.hpp>
 #include <grid_map_visualization/visualizations/TerrainMapVisualization.hpp>
-#include <grid_map/GridMapRosConverter.hpp>
-#include <grid_map/GridMapMsgHelpers.hpp>
+#include <grid_map_ros/GridMapRosConverter.hpp>
+#include <grid_map_ros/GridMapMsgHelpers.hpp>
 
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud2_iterator.h>
@@ -22,7 +22,7 @@ TerrainMapVisualization::TerrainMapVisualization(ros::NodeHandle& nodeHandle, co
   // this code is to convert RGB to unsigned long values
   unsigned long result;
   grid_map::colorVectorToValue(Eigen::Vector3i(255, 255, 0), result);
-  ROS_INFO("your color: %u", result);
+  ROS_INFO("your color: %lu", result);
 }
 
 TerrainMapVisualization::~TerrainMapVisualization()

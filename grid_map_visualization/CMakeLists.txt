@@ -3,28 +3,20 @@ project(grid_map_visualization)
 SET(CMAKE_BUILD_TYPE Release) # Release, RelWithDebInfo
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(CMAKE_BUILD_TYPE RelWithDebInfo)
-
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf
-  grid_map
   grid_map_core
+  grid_map_ros
   grid_map_msgs
   visualization_msgs
   sensor_msgs
   nav_msgs
-  sensor_msgs
 )
 
-find_package(Eigen3 REQUIRED)
+## System dependencies are found with CMake's conventions
+#find_package(Eigen3 REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -41,13 +33,12 @@ catkin_package(
   CATKIN_DEPENDS
     roscpp
     tf
-    grid_map
     grid_map_core
+    grid_map_ros
     grid_map_msgs
     visualization_msgs
     sensor_msgs
     nav_msgs
-    sensor_msgs
 )
 
 ###########
@@ -62,32 +53,25 @@ include_directories(
   ${EIGEN3_INCLUDE_DIR}
 )
 
-## Declare a cpp library
-add_library(grid_map_viz
+## Declare a cpp executable
+add_executable(
+  ${PROJECT_NAME}
+  src/grid_map_visualization_node.cpp
   src/GridMapVisualization.cpp
   src/GridMapVisualizationHelpers.cpp
-	src/visualizations/VisualizationBase.cpp
-	src/visualizations/VisualizationFactory.cpp
+  src/visualizations/VisualizationBase.cpp
+  src/visualizations/VisualizationFactory.cpp
   src/visualizations/PointCloudVisualization.cpp
+  src/visualizations/FlatPointCloudVisualization.cpp
   src/visualizations/VectorVisualization.cpp
-	src/visualizations/OccupancyGridVisualization.cpp
-	src/visualizations/GridCellsVisualization.cpp
-	src/visualizations/MapRegionVisualization.cpp
+  src/visualizations/OccupancyGridVisualization.cpp
+  src/visualizations/GridCellsVisualization.cpp
+  src/visualizations/MapRegionVisualization.cpp
   src/visualizations/SemanticLabelsVisualization.cpp
   src/visualizations/TerrainMapVisualization.cpp
   include/grid_map_visualization/visualizations/ElevationVisualization.hpp
   include/grid_map_visualization/visualizations/SurfaceVisualization.hpp
-)
-
-target_link_libraries(
-  grid_map_viz
-  ${catkin_LIBRARIES}
-)
-
-## Declare a cpp executable
-add_executable(
-	${PROJECT_NAME}
-	src/grid_map_visualization_node.cpp
+  #>>>>>>> upstream/master
 )
 
 ## Add cmake target dependencies of the executable/library
@@ -97,5 +81,23 @@ add_executable(
 ## Specify libraries to link a library or executable target against
 target_link_libraries(
   ${PROJECT_NAME}
-  grid_map_viz
+  ${catkin_LIBRARIES}
+)
+
+#############
+## Install ##
+#############
+
+# Mark executables and/or libraries for installation
+install(
+  TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+# Mark other files for installation
+install(
+  DIRECTORY doc
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
